@@ -8,15 +8,25 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Authorization Policies
+
 builder.Services.AddAuthorization(opts =>
 {
     opts.FallbackPolicy = new AuthorizationPolicyBuilder()
     .RequireAuthenticatedUser()
     .Build();
 });
+
+// Health Checks
+
+builder.Services.AddHealthChecks()
+    .AddSqlServer(
+        builder.Configuration.GetConnectionString("Default")
+    );
+
 
 builder.Services.AddAuthorization(opts =>
 {
@@ -46,8 +56,11 @@ builder.Services.AddAuthentication("Bearer")
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration.GetValue<string>("Authentication:Issuer"),
             ValidAudience = builder.Configuration.GetValue<string>("Authentication:Audience"),
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(
-                builder.Configuration.GetValue<string>("Authentication:SecretKey")))
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.ASCII.GetBytes(
+                builder.Configuration.GetValue<string>("Authentication:SecretKey")
+                )
+            )
         };
     });
 
@@ -67,5 +80,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHealthChecks("/health").AllowAnonymous();
 
 app.Run();
