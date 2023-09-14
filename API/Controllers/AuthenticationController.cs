@@ -12,14 +12,13 @@ namespace API.Controllers;
 public class AuthenticationController : Controller
 {
     private readonly IConfiguration _config;
+    public record AuthenticationData(string? UserName, string? Password);
+    public record UserData(int Id, string FirstName,  string LastName, string UserName, string Role);
 
     public AuthenticationController(IConfiguration config)
     {
         _config = config;
     }
-
-    public record AuthenticationData(string? UserName, string? Password);
-    public record UserData(int Id, string FirstName,  string LastName, string UserName, string Role);
 
     [HttpPost("token")]
     [AllowAnonymous]

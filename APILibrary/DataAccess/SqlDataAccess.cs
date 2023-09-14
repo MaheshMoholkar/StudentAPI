@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APILibrary.DataAccess;
-
-internal class SqlDataAccess
+namespace StudentLibrary.DataAccess
 {
-
+    internal class SqlDataAccess
+    {
+    }
 }
