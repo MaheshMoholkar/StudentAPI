@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ERPLibrary.Data;
+using ERPLibrary.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,21 +14,23 @@ namespace API.Controllers;
 public class AuthenticationController : Controller
 {
     private readonly IConfiguration _config;
-    public record AuthenticationData(string? UserName, string? Password);
-    public record UserData(int Id, string FirstName,  string LastName, string UserName, string Role);
+    private readonly IUserData _data;
 
-    public AuthenticationController(IConfiguration config)
+    public record AuthenticationData(string? UserName, string? Password, string? Role);
+
+    public AuthenticationController(IConfiguration config, IUserData data)
     {
         _config = config;
+        _data = data;
     }
 
     [HttpPost("token")]
     [AllowAnonymous]
-    public ActionResult<string> Authenticate([FromBody] AuthenticationData data)
+    public async Task<ActionResult<string>> Authenticate([FromBody] AuthenticationData data)
     {
-        var user = ValidateCredentials(data);
+        var user = await ValidateCredentials(data);
 
-        if (user == null)
+        if (user.Id == null)
         {
             return Unauthorized();
         }
@@ -36,7 +40,7 @@ public class AuthenticationController : Controller
         return Ok(token);
     }
 
-    private string GenerateToken(UserData user)
+    private string GenerateToken(UserDataModel user)
     {
         var secretKey = new SymmetricSecurityKey(
             Encoding.ASCII.GetBytes(
@@ -61,32 +65,8 @@ public class AuthenticationController : Controller
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    private UserData? ValidateCredentials(AuthenticationData data)
+    private async Task<UserDataModel> ValidateCredentials(AuthenticationData data)
     {
-        // Non Production Code only
-
-        if (CompareValues(data.UserName, "admin") &&
-            CompareValues(data.Password, "password"))
-        {
-            return new UserData(1, "Mahesh", "Moholkar", data.UserName!, "admin");
-        }
-        if (CompareValues(data.UserName, "mangesh") &&
-            CompareValues(data.Password, "password"))
-        {
-            return new UserData(2, "Mangesh", "Wayal", data.UserName!, "student");
-        }
-        return null;
-    }
-
-    private bool CompareValues(string? actual,  string? expected)
-    {
-        if (actual is not null)
-        {
-            if (!actual.Equals(expected))
-            {
-                return false;
-            }
-        }
-        return true;
+        return await _data.Authenticate(data.UserName, data.Password, data.Role);
     }
 }

@@ -1,43 +1,35 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ERPLibrary.Repository;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class HomeController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class HomeController : ControllerBase
+    private readonly IUserRepository _repository;
+
+    public HomeController(IUserRepository repository)
     {
-        // GET: api/<HomeController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<HomeController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<HomeController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<HomeController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<HomeController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        _repository = repository;
     }
+    // GET api/<HomeController>/5
+    [HttpPost("students/{id}")]
+    public async Task<IActionResult> GetUserInfo(int id)
+    {
+        var data = await _repository.GetUserInfo(id, "student");
+
+        return Ok(data);
+    }
+
+    [HttpGet("connection")]
+    public IActionResult ChecKConnection()
+    {
+        return BadRequest();
+    }
+
 }
