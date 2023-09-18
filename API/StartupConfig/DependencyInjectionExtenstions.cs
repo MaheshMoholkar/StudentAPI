@@ -1,10 +1,6 @@
 ﻿using API.Constants;
-using ERPLibrary.Data;
 using ERPLibrary.DatabaseAccess;
-using ERPLibrary.Repository;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 

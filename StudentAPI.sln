@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{7F9D2366-C5BB-441F-A101-8CBE74817EB0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERPLibrary", "D:\ERPLibrary\ERPLibrary.csproj", "{88C0145D-E959-441D-A390-22D036B06C76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7F9D2366-C5BB-441F-A101-8CBE74817EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F9D2366-C5BB-441F-A101-8CBE74817EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F9D2366-C5BB-441F-A101-8CBE74817EB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88C0145D-E959-441D-A390-22D036B06C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88C0145D-E959-441D-A390-22D036B06C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88C0145D-E959-441D-A390-22D036B06C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88C0145D-E959-441D-A390-22D036B06C76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
