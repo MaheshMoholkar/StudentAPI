@@ -16,8 +16,4 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ErpLibrary\ERPLibrary.csproj" />
-  </ItemGroup>
-
 </Project>
