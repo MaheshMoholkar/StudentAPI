@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="D:\ERPLibrary\ERPLibrary.csproj" />
+    <ProjectReference Include="..\ERPLibrary\ERPLibrary.csproj" />
   </ItemGroup>
 
 </Project>
