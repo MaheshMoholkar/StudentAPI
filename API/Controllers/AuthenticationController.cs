@@ -42,9 +42,13 @@ public class AuthenticationController : Controller
 
     private string GenerateToken(UserDataModel user)
     {
+        var authenticationIssuer = Environment.GetEnvironmentVariable("Issuer");
+        var authenticationAudience = Environment.GetEnvironmentVariable("Audience");
+        var authenticationSecretKey = Environment.GetEnvironmentVariable("SecretKey");
+
         var secretKey = new SymmetricSecurityKey(
             Encoding.ASCII.GetBytes(
-                _config.GetValue<string>("Authentication:SecretKey")));
+                authenticationSecretKey));
 
         var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
@@ -56,8 +60,8 @@ public class AuthenticationController : Controller
         claims.Add(new("Role", user.Role));
 
         var token = new JwtSecurityToken(
-            _config.GetValue<string>("Authentication:Issuer"),
-            _config.GetValue<string>("Authentication:Audience"),
+            authenticationIssuer,
+            authenticationAudience,
             claims,
             DateTime.UtcNow,
             DateTime.UtcNow.AddHours(1),
